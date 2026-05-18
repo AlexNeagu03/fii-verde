@@ -29,5 +29,5 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'fii-verde-d2bzc4d2cyf5bvc5'
+          app-name: 'fii-verde'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
