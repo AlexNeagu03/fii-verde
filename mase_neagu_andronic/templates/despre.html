@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Despre - Fii Verde</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/despre.css' %}">
+</head>
+<body>
+<header>
+    <div class="logo">🌿 Fii <span>Verde</span></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="/">Acasă</a></li>
+            <li><a href="/despre">Despre</a></li>
+            <li><a href="/contact">Contact</a></li>
+            {% if request.session.user_id %}
+                <li><a href="/usersapp/dashboard">Contul meu</a></li>
+                <li><a href="/usersapp/logout">Deconectare</a></li>
+            {% else %}
+                <li><a href="/usersapp/login">Autentificare</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
+<section class="content-section">
+    <div class="container">
+        <h1>Despre proiectul „Fii Verde”</h1>
+
+        <p>
+            Proiectul „Fii Verde” este o aplicație web dedicată gestionării procesului de colectare
+            a hârtiei reciclabile în cadrul unei campanii de reciclare și protecție a mediului.
+        </p>
+
+        <h2>Scopul aplicației</h2>
+        <p>
+            Aplicația centralizează punctele de colectare și oferă un sistem simplu de comunicare
+            între utilizatori și administratorii platformei.
+        </p>
+
+        <h2>Funcționalități principale</h2>
+        <ul>
+            <li>Înregistrare și autentificare utilizatori</li>
+            <li>Gestionarea adresei containerului</li>
+            <li>Marcarea containerului ca plin sau gol</li>
+            <li>Hartă interactivă pentru utilizator</li>
+            <li>Hartă generală pentru administrator</li>
+        </ul>
+
+        <h2>Tehnologii utilizate</h2>
+        <p>
+            Aplicația este realizată folosind Django, HTML, CSS, JavaScript, SQLite și servicii
+            externe de localizare.
+        </p>
+    </div>
+</section>
+</body>
+</html>

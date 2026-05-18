@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="utf-8">
+    <title>Harta Utilizatorilor</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <h1>Harta Utilizatorilor</h1>
+    <div id="map" style="width: 100%; height: 500px;"></div>
+
+    <script>
+        const map = L.map('map').setView([45.9432, 24.9668], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const markers = JSON.parse('{{ user_locations|escapejs }}');
+
+        markers.forEach(function(marker) {
+            L.marker([marker.lat, marker.lon])
+                .addTo(map)
+                .bindPopup(`<strong>${marker.name}</strong><br>${marker.adresa}`);
+        });
+    </script>
+</body>
+</html>

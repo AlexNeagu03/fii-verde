@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard utilizator - Fii Verde</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script defer src="{% static 'js/dashboard.js' %}"></script>
+</head>
+<body>
+<header>
+    <div class="logo">🌿 Fii <span>Verde</span></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="/">Acasă</a></li>
+            <li><a href="/despre">Despre</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/usersapp/dashboard">Contul meu</a></li>
+            <li><a href="/usersapp/logout">Deconectare</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="dashboard-section">
+    <div class="container">
+        <h1>Profil utilizator</h1>
+
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <label for="nume">Nume</label>
+            <input type="text" id="nume" name="nume" value="{{ user.nume }}" required>
+
+            <label for="prenume">Prenume</label>
+            <input type="text" id="prenume" name="prenume" value="{{ user.prenume }}" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+
+            <label for="parola">Parolă</label>
+            <input type="password" id="parola" name="parola" value="{{ user.parola }}" required>
+
+            <label for="tip_persoana">Tip persoană</label>
+            <input type="text" id="tip_persoana" name="tip_persoana" value="{{ user.tip_persoana }}" disabled>
+
+            {% if user.tip_persoana == 'Juridică' %}
+                <label for="companie">Nume companie</label>
+                <input type="text" id="companie" name="companie" value="{{ user.companie }}">
+            {% endif %}
+
+            {% if user_not_has_map_access %}
+                <label for="adresa">Adresă</label>
+                <input type="text" id="adresa" name="adresa" value="{{ user.adresa }}">
+
+                <div class="status-cos">
+                    <label>Status coș reciclare:</label>
+                    <button type="button" id="toggleStatus" class="{% if user.status_cos %}plin{% else %}gol{% endif %}">
+                        {% if user.status_cos %}
+                            Container plin – gata de colectat
+                        {% else %}
+                            Container gol
+                        {% endif %}
+                    </button>
+
+                    <input type="hidden" name="status_cos" id="status_cos" value="{{ user.status_cos|yesno:'true,false' }}">
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="color: green; font-weight: bold; margin-top: 30px;">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+
+                <div id="harta"
+                     data-lat="{{ user.lat|default_if_none:'' }}"
+                     data-lon="{{ user.lon|default_if_none:'' }}"
+                     style="height: 400px; width: 100%; border-radius: 12px; margin-top: 30px;">
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Salvează modificările</button>
+                </div>
+            {% endif %}
+
+            {% if user_has_map_access %}
+                <h2 style="margin-top: 60px;">Harta tuturor coșurilor</h2>
+                <div id="map-all-users" style="width: 100%; height: 500px; margin-bottom: 50px; border-radius: 12px;"></div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const map = L.map('map-all-users').setView([45.9432, 24.9668], 6);
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; OpenStreetMap contributors'
+                        }).addTo(map);
+
+                        const markers = JSON.parse('{{ all_user_locations|escapejs }}');
+
+                        markers.forEach(function(marker) {
+                            const color = marker.status_cos ? 'green' : 'red';
+
+                            const customIcon = L.divIcon({
+                                className: 'custom-marker',
+                                html: `<div style="background:${color}; width:18px; height:18px; border-radius:50%; border:2px solid white;"></div>`,
+                                iconSize: [18, 18]
+                            });
+
+                            L.marker([marker.lat, marker.lon], { icon: customIcon })
+                                .addTo(map)
+                                .bindPopup(`<strong>${marker.name}</strong><br>${marker.adresa}`);
+                        });
+                    });
+                </script>
+            {% endif %}
+        </form>
+    </div>
+</section>
+</body>
+</html>

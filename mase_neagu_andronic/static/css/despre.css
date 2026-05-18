@@ -1,0 +1,57 @@
+.content-section {
+    padding: 135px 20px 60px;
+    background:
+        linear-gradient(135deg, #f7f2e8 0%, #e7f6df 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 950px;
+    margin: 0 auto;
+    background: white;
+    padding: 46px;
+    border-radius: 22px;
+    box-shadow: 0 18px 45px rgba(6, 41, 31, 0.12);
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #06291f;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.45rem;
+    color: #3f7d32;
+    margin-top: 32px;
+    margin-bottom: 12px;
+}
+
+p {
+    line-height: 1.75;
+    font-size: 1.05rem;
+    color: #35443b;
+    margin-bottom: 15px;
+}
+
+.container ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 14px;
+}
+
+.container ul li {
+    padding: 14px 16px 14px 44px;
+    position: relative;
+    margin-bottom: 12px;
+    background: #eef8e9;
+    border-radius: 12px;
+    color: #1d2b24;
+}
+
+.container ul li::before {
+    content: "🌿";
+    position: absolute;
+    left: 15px;
+}

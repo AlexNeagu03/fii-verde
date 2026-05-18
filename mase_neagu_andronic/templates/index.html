@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fii Verde</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">🌿 Fii <span>Verde</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Acasă</a></li>
+                <li><a href="/despre">Despre</a></li>
+                <li><a href="/contact">Contact</a></li>
+                {% if request.session.user_id %}
+                    <li><a href="/usersapp/dashboard">Contul meu</a></li>
+                    <li><a href="/usersapp/logout">Deconectare</a></li>
+                {% else %}
+                    <li><a href="/usersapp/login">Autentificare</a></li>
+                    <li><a href="/usersapp/register">Înregistrare</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Împreună pentru un <span>viitor mai curat</span></h1>
+            <p>
+                Platforma Fii Verde te ajută să gestionezi ușor colectarea hârtiei reciclabile,
+                să marchezi containerele pline și să contribui la protejarea mediului.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="/usersapp/register" class="btn-filled">Începe acum</a>
+                <a href="/despre" class="btn-outline">Află mai multe</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <h3>Reciclare ușoară</h3>
+            <p>Utilizatorii pot marca rapid containerul ca plin sau gol.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Hartă interactivă</h3>
+            <p>Locațiile containerelor pot fi vizualizate direct pe hartă.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Impact pozitiv</h3>
+            <p>Fiecare colectare contribuie la reducerea risipei de hârtie.</p>
+        </div>
+    </section>
+</body>
+</html>
